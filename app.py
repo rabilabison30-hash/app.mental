@@ -1,16 +1,20 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+import joblib
 
+# Load model
+model = joblib.load("model.pkl")
+scaler = joblib.load("scaler.pkl")
+pca = joblib.load("pca.pkl")
+
+# Judul
 st.title("Prediksi Kesehatan Mental 🧠")
 
-# Input user
+# =========================
+# 🔹 INPUT USER (DI SINI)
+# =========================
+
 age = st.number_input("Umur", 10, 100)
-work_stress = st.slider("Work Stress Level", 1, 10)
-sleep = st.slider("Jam Tidur", 1, 12)
-social = st.slider("Social Support", 1, 10)
 
 st.subheader("Work Stress Level")
 work_stress = st.slider("Work Stress Level", 1, 10)
@@ -24,6 +28,10 @@ st.subheader("Social Support")
 social = st.slider("Social Support", 1, 10)
 st.caption("Seberapa banyak dukungan sosial yang kamu rasakan (teman, keluarga, dll)")
 
+# =========================
+# 🔹 PREDIKSI (SETELAH INPUT)
+# =========================
+
 if st.button("Prediksi"):
     data = np.array([[age, work_stress, sleep, social]])
 
@@ -36,4 +44,3 @@ if st.button("Prediksi"):
         st.error("Berpotensi memiliki masalah kesehatan mental")
     else:
         st.success("Kondisi mental cenderung baik")
-        
